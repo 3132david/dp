@@ -4,223 +4,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RD DefensePro – AI Assistant</title>
-  <meta name="description" content="Internal page hosting the Chatbase AI assistant to help with RD DefensePro." />
+  <title>DefensePro – AI Assistant</title>
   <style>
-    :root {
-      /* RD-inspired palette (from publicly referenced logo/color sources) */
-      --rw-black: #2B2A29;   /* near-black */
-      --rw-red:   #CB6B56;   /* red accent */
-      --rw-yellow:#F5C913;   /* yellow accent */
-      --rw-teal:  #6A8D8F;   /* teal/blue-gray accent */
-      --rw-olive: #9C831C;   /* olive accent */
-      --rw-blue:  #0D7B97;   /* additional accent seen in brandfetch */
-      --bg-grad-1: #121212;  /* base dark */
-      --bg-grad-2: #1b1b1b;  /* secondary dark */
-      --text: #f5f7fa;
-      --muted: #cfd3d8;
-      --card: rgba(255,255,255,0.06);
-      --card-stroke: rgba(255,255,255,0.12);
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius-xl: 20px;
+    :root{
+      --rw-black:#2B2A29; --rw-red:#CB6B56; --rw-yellow:#F5C913; --rw-teal:#6A8D8F; --rw-blue:#0D7B97;
+      --bg1:#121212; --bg2:#1b1b1b; --text:#f5f7fa; --muted:#cfd3d8; --card:rgba(255,255,255,.06); --stroke:rgba(255,255,255,.12);
     }
-
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", Ubuntu, sans-serif;
-      color: var(--text);
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:"Segoe UI", Roboto, Arial, "Helvetica Neue", sans-serif; color:var(--text);
       background: radial-gradient(1200px 600px at 80% -10%, rgba(245,201,19,.12), transparent 60%),
                   radial-gradient(900px 500px at -10% 20%, rgba(203,107,86,.16), transparent 60%),
                   radial-gradient(700px 500px at 110% 80%, rgba(13,123,151,.14), transparent 60%),
-                  linear-gradient(180deg, var(--bg-grad-1), var(--bg-grad-2));
-      overflow-x: hidden;
+                  linear-gradient(180deg, var(--bg1), var(--bg2));
     }
-
-    .wrap {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 40px 20px 80px;
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .mark {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 700;
-      letter-spacing: .2px;
-    }
-    .mark .dots {
-      display: inline-grid;
-      grid-template-columns: repeat(2, 10px);
-      gap: 4px 6px;
-      align-items: center;
-    }
-    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-    .dot.gray { background: #9aa0a6; }
-    .dot.red { background: var(--rw-red); }
-    .dot.yellow { background: var(--rw-yellow); }
-    .dot.green { background: #46b275; }
-
-    .hero {
-      margin-top: 48px;
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 32px;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--card-stroke);
-      box-shadow: var(--shadow);
-      border-radius: var(--radius-xl);
-      padding: 28px;
-      backdrop-filter: blur(8px);
-    }
-
-    .title {
-      font-size: clamp(28px, 4vw, 46px);
-      line-height: 1.1;
-      margin: 0 0 14px 0;
-    }
-    .subtitle { color: var(--muted); margin: 0 0 18px 0; }
-
-    .badges { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0 24px; }
-    .badge {
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--card-stroke);
-      background: rgba(255,255,255,.06);
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: .6px;
-    }
-    .badge.red { border-color: rgba(203,107,86,.6); color: var(--text); background: linear-gradient(135deg, rgba(203,107,86,.35), rgba(203,107,86,.15)); }
-    .badge.yellow { border-color: rgba(245,201,19,.55); color: #1b1b1b; background: linear-gradient(135deg, rgba(245,201,19,.95), rgba(245,201,19,.65)); }
-    .badge.teal { border-color: rgba(106,141,143,.6); color: var(--text); background: linear-gradient(135deg, rgba(106,141,143,.35), rgba(106,141,143,.15)); }
-
-    .cta {
-      display: inline-flex; align-items: center; gap: 10px;
-      padding: 12px 18px;
-      border-radius: 12px;
-      border: 1px solid rgba(245,201,19,.75);
-      background: linear-gradient(180deg, rgba(245,201,19,1), rgba(245,201,19,.85));
-      color: #1b1b1b; font-weight: 700; text-decoration: none;
-      box-shadow: 0 10px 20px rgba(245,201,19,.25);
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-    .cta:hover { transform: translateY(-1px); box-shadow: 0 14px 26px rgba(245,201,19,.32); }
-
-    .info {
-      display: grid; gap: 16px; margin-top: 8px; color: var(--muted);
-    }
-    .info li { margin-left: 1.2rem; }
-
-    .panel {
-      display: grid; gap: 16px; align-content: start;
-    }
-    .panel h3 { margin: 0; font-size: 18px; letter-spacing: .3px; }
-    .kv { display: grid; gap: 10px; }
-    .kv .row { display: grid; grid-template-columns: 140px 1fr; gap: 10px; }
-    .pill {
-      display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px;
-      border-radius: 999px; background: rgba(255,255,255,.06); border: 1px solid var(--card-stroke);
-      font-size: 12px; color: var(--text);
-    }
-    .swatch { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
-
-    footer { margin-top: 56px; color: var(--muted); font-size: 12px; }
-
-    @media (max-width: 880px) {
-      .hero { grid-template-columns: 1fr; }
-    }
+    .wrap{max-width:980px;margin:0 auto;padding:40px 20px 60px}
+    header{display:flex;align-items:center;justify-content:space-between}
+    .mark{display:inline-flex;align-items:center;gap:12px;color:var(--text);text-decoration:none;font-weight:800}
+    .dots{display:inline-grid;grid-template-columns:repeat(2,10px);gap:4px 6px}
+    .dot{width:10px;height:10px;border-radius:50%}
+    .dot.gray{background:#9aa0a6}.dot.red{background:var(--rw-red)}.dot.yellow{background:var(--rw-yellow)}.dot.green{background:#46b275}
+    .card{margin-top:42px;background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:26px;backdrop-filter:blur(8px)}
+    h1{margin:0 0 10px 0;font-size:clamp(28px,4vw,44px);line-height:1.1}
+    p{margin:0;color:var(--muted)}
+    .note{margin-top:14px;font-size:12px;color:var(--muted)}
+    footer{margin-top:36px;color:var(--muted);font-size:12px}
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <a class="mark" href="#" aria-label="RD Home">
+      <a class="mark" href="#" aria-label="Radware">
         <span class="dots" aria-hidden="true">
           <span class="dot gray"></span>
           <span class="dot red"></span>
           <span class="dot yellow"></span>
           <span class="dot green"></span>
         </span>
-        <span style="font-weight:800;">RD</span>
+        <span>radware</span>
       </a>
-      <div class="pill" title="Internal">
-        <span class="swatch" style="background: var(--rw-blue);"></span>
-        Internal • Corporate Access Only
-      </div>
+      <span style="font-size:12px;color:var(--muted);">Internal • Corporate Access Only</span>
     </header>
 
-    <section class="hero">
-      <div class="card">
-        <h1 class="title">DefensePro <span style="color: var(--rw-yellow);">AI Assistant</span></h1>
-        <p class="subtitle">An embedded chat assistant to help analysts and responders with questions about
-          <strong>RD DefensePro</strong> capabilities, tuning, and runbooks.
-        </p>
-        <div class="badges">
-          <span class="badge yellow">AI Assistant</span>
-          <span class="badge red">DDoS & Mitigation</span>
-          <span class="badge teal">DefensePro</span>
-        </div>
-        <a class="cta" href="#open" onclick="window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); return false;">Open Assistant</a>
-        <ul class="info">
-          <li>This page is for <strong>internal use</strong> only. Authenticate with corporate SSO if prompted.</li>
-          <li>The widget loads from Chatbase and surfaces a conversational interface for quick lookups, tips and links to official materials.</li>
-        </ul>
-      </div>
+    <main class="card">
+      <h1>DefensePro <span style="color:var(--rw-yellow)">AI Assistant</span></h1>
+      <p>Use the chat bubble at the bottom‑right to ask questions about DefensePro configuration, tuning, and operations.</p>
+      <p class="note">If the widget doesn’t appear, refresh the page or check your network policy for <code>chatbase.co</code>.</p>
+    </main>
 
-      <aside class="card panel">
-        <h3>Theme & Palette</h3>
-        <div class="kv">
-          <div class="row"><div class="pill"><span class="swatch" style="background:var(--rw-red)"></span> Red</div><div>#CB6B56</div></div>
-          <div class="row"><div class="pill"><span class="swatch" style="background:var(--rw-yellow)"></span> Yellow</div><div>#F5C913</div></div>
-          <div class="row"><div class="pill"><span class="swatch" style="background:var(--rw-teal)"></span> Teal</div><div>#6A8D8F</div></div>
-          <div class="row"><div class="pill"><span class="swatch" style="background:var(--rw-blue)"></span> Blue</div><div>#0D7B97</div></div>
-          <div class="row"><div class="pill"><span class="swatch" style="background:var(--rw-black)"></span> Near Black</div><div>#2B2A29</div></div>
-        </div>
-        <p class="subtitle">Colors reflect RD’s logo accents and publicly referenced palettes.</p>
-      </aside>
-    </section>
-
-    <section id="open" class="card" style="margin-top:24px;">
-      <h2 style="margin-top:0;">Start a conversation</h2>
-      <p class="subtitle">Use the chat bubble (bottom-right) to ask about deployment models, behavioral signatures, and mitigation tuning for DefensePro.</p>
-      <ul class="info">
-        <li>Example prompts:
-          <ul>
-            <li>“What are best practices to reduce false positives when enabling behavioral DoS protections?”</li>
-            <li>“How do I size a DefensePro for 40 Gbps with burst headroom?”</li>
-            <li>“Explain real-time signatures vs. rate-limiting in an encrypted Web DDoS.”</li>
-          </ul>
-        </li>
-      </ul>
-    </section>
-
-    <footer>
-      <p>© 2025 — Internal use only. Chat content may be logged for quality and security purposes.</p>
-    </footer>
+    <footer>© 2025 · Internal use only</footer>
   </div>
 
-  <!-- Chatbase widget embed -->
+  <!-- Chatbase widget embed (unchanged) -->
   <script>
   (function(){
     if(!window.chatbase||window.chatbase("getState")!=="initialized"){
       window.chatbase=(...arguments)=>{ if(!window.chatbase.q){window.chatbase.q=[]} window.chatbase.q.push(arguments)};
       window.chatbase=new Proxy(window.chatbase,{get(target,prop){ if(prop==="q"){return target.q} return(...args)=>target(prop,...args)}})
     }
-    const onLoad=function(){ const script=document.createElement("script"); script.src="https://www.chatbase.co/embed.min.js"; script.id="90qSLwuJTGkRFXGZ743Qz"; script.domain="www.chatbase.co"; document.body.appendChild(script) };
+    const onLoad=function(){ const s=document.createElement("script"); s.src="https://www.chatbase.co/embed.min.js"; s.id="90qSLwuJTGkRFXGZ743Qz"; s.domain="www.chatbase.co"; document.body.appendChild(s) };
     if(document.readyState==="complete"){ onLoad() } else { window.addEventListener("load", onLoad) }
   })();
   </script>
