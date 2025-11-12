@@ -67,5 +67,14 @@
     if(document.readyState==="complete"){ onLoad() } else { window.addEventListener("load", onLoad) }
   })();
   </script>
+
+ <script>
+        // Ensure the script runs after the Chatbase script has loaded
+        window.addEventListener('load', function() {
+            // Open the chat widget
+            window.chatbase.open();
+        });
+    </script>
+  
 </body>
 </html>
